@@ -14,7 +14,7 @@ import data as dt
 
 # -- TEST 1 : 
 # verify that the script is being read
-print(dt.dict_test)
+print(dt.data_archivos)
 
 # -- TEST 2 :
 # verify that installed pandas module works correctly
