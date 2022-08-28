@@ -1,1 +1,1 @@
-# Laboratorio-1---Inversi-n-del-capital
+# Laboratorio-1---Inversion-del-capital
