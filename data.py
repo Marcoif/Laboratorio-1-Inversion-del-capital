@@ -17,22 +17,25 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 from glob import glob
-#import yfinance as yf
+import yfinance as yf
 import collections
 import math
 
 
 
-filenames = glob("/Users/marcoochoa/Library/CloudStorage/OneDrive-ITESO/9 SEMESTRE/MICROESTRUCTURAS DE TRADING/Lab 1/Laboratorio-1-Inversion-del-capital/NAFTRAC/*.csv")
-# para la lectura de los archivos, la paqueteria glob necesita toda la ruta, r al principio y /*.csv al final para que identifique la terminacion
-# data = pd.read_csv(filenames, skiprows=2)
+filenames = glob("/Users/marcoochoa/Downloads/MICROESTRUCTURAS DE TRADING/Lab 1/Laboratorio-1-Inversion-del-capital/NAFTRAC/*.csv")
+
+# para poder abrir todos los archivos use la libreria glob para leer todos los csv poniendo la ruta de acceso de los archivos y el *csv al final
+
+# archivos me da la lectura de los archivos con el numero de posiciones
 archivos = [filenames[i][-20:-4] for i in range(len(filenames))]
 
-# date =datetime.strptime(real, '%d%m%y').date()
-# Leer todos los archivos y guardarlos en un diccionario
-# crear un diccionario para almacenar todos los datos
+
+# Crear el diccionario donde metemos todos los datos brindados
+
 data_archivos = {}
 
+#este for me ayuda con la limpieza de los datos para poder trabajar con ellos
 for i in filenames:
     data = pd.read_csv(i, skiprows=2, header=None)
     # renombrar las columnas con lo que tiene el 1er renglon
@@ -53,4 +56,5 @@ for i in filenames:
     data_archivos[i] = data
 
 
-dict_test = {'key_a': 'a', 'key_b': 'b'}
+
+
