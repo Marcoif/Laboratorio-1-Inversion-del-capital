@@ -17,15 +17,16 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 from glob import glob
-import yfinance as yf
+#import yfinance as yf
 import collections
 import math
 
 
-filenames = glob("C:/Users/marcoochoa/Library/CloudStorage/OneDrive-ITESO/9 SEMESTRE/MICROESTRUCTURAS DE TRADING/Lab 1/Laboratorio-1-Inversion-del-capital/NAFTRAC/.csv")
+
+filenames = glob("/Users/marcoochoa/Library/CloudStorage/OneDrive-ITESO/9 SEMESTRE/MICROESTRUCTURAS DE TRADING/Lab 1/Laboratorio-1-Inversion-del-capital/NAFTRAC/*.csv")
 # para la lectura de los archivos, la paqueteria glob necesita toda la ruta, r al principio y /*.csv al final para que identifique la terminacion
 # data = pd.read_csv(filenames, skiprows=2)
-archivos = [filenames[i][-18:-4] for i in range(len(filenames))]
+archivos = [filenames[i][-20:-4] for i in range(len(filenames))]
 
 # date =datetime.strptime(real, '%d%m%y').date()
 # Leer todos los archivos y guardarlos en un diccionario
