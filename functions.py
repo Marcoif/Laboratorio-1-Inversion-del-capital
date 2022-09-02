@@ -40,3 +40,20 @@ def f_global_tickers(data_archivos, filenames):
     return global_tickers
 
 
+# Aqui voy a descargar los datos historicos de internet para poder usarlos en la inv pasiva
+# Cambio los nombres de lo que viene en el excel por los nombres con los que aparecen en yahoo finance
+def prices_download(global_tickers):
+    global_tickers = [i.replace('LIVEPOLC.1.MX', 'LIVEPOLC-1.MX') for i in global_tickers]
+
+    # eliminamos las posiciones que vamos a tomar como cash
+
+    [global_tickers.remove(i) for i in ['USD.MX', 'KOFL.MX', 'KOFUBL.MX', 'BSMXB.MX', 'NMKA.MX']]
+
+    inicio = time.time()
+    data = yf.download(global_tickers, start="31-01-2020", end="29-07-2022", actions=False, group_by="close",
+                       interval="1d",
+                       auto_adjust=False, prepost=False, threads=True)
+    print('se tardo', time.time() - inicio, 'segundos')
+
+    return data
+
