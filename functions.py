@@ -57,3 +57,23 @@ def prices_download(global_tickers):
 
     return data
 
+
+# Limpiamos y ordenamos los precios de data que nos interesan
+def clean_price(data_archivos, dates_list, data, t_fechas):
+    ini_tickers = []
+    [ini_tickers.append(j + '.MX') for j in [data_archivos[dates_list[0]]['Ticker']]]
+    ini_tickers = np.concatenate(ini_tickers)
+    # Bajr los datos de yahoofinance
+
+    ini_tickers = [i.replace('LIVEPOLC.1.MX', 'LIVEPOLC-1.MX') for i in ini_tickers]
+
+    # quitamos los tickers que no están en el archivo inicial
+    [ini_tickers.remove(i) for i in ['KOFL.MX', 'BSMXB.MX']]
+
+    # Obtener los precios de cierre
+    data_close = pd.DataFrame({i: data[i]['Close'] for i in ini_tickers})
+    precios = data_close.iloc[np.concatenate([np.where(data_close.index.astype(str) == i)[0] for i in t_fechas])]
+    precios = precios.reindex(sorted(precios.columns), axis=1)
+    return precios, data_close
+
+
