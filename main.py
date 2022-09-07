@@ -8,41 +8,35 @@
 # -- repository: YOUR REPOSITORY URL                                                                     -- #
 # -- --------------------------------------------------------------------------------------------------- -- #
 """
+# En esta seccion pondre las funciones mas importantes y que es lo que hacen En esta funcion se construyen los
+# archivos de la inversion pasiva para poder trabajar con ellos acomodarlos para poder trabajar con ellos
+fechas = fn.f_fechas(p_archivos=dt.archivos)
 
-import pandas as pd
-import data as dt
+# Esta funcion me hace ya el indice de todos los archivos para poder leerlos y bajar los datos de yahoofinance
 
-# -- TEST 1 : 
-# verify that the script is being read
-print(dt.data_archivos)
+global_tickers = fn.f_global_tickers(data_archivos=dt.data_archivos, filenames=dt.filenames)
 
-# -- TEST 2 :
-# verify that installed pandas module works correctly
-df_dict_test = pd.DataFrame(dt.dict_test, index=[0, 1])
-print(df_dict_test)
 
-# -- TEST 3 :
-# verify you can use plotly and visualize plots in jupyter notebook
+# Esta funcion me descarga ya los precios que toma de global tickers para que ya tome el precio de cierre que necesitamos
+data = fn.prices_download(global_tickers=global_tickers)
 
-import chart_studio.plotly as py   # various tools (jupyter offline print)
-import plotly.graph_objects as go  # plotting engine
 
-# example data
-df = pd.DataFrame({'column_a': [1, 2, 3, 4, 5], 'column_b': [1, 2, 3, 4, 5]})
-# basic plotly plot
-data = [go.Bar(x=df['column_a'], y=df['column_b'])]
-# instruction to view it inside jupyter
-py.iplot(data, filename='jupyter-basic_bar')
-# (alternatively) instruction to view it in web app of plotly
-# py.plot(data)
+# Esta funcion tambien la agregue en el notebook sirve para ordenar los datos de precio de cierre que se tiene con
+# los archivos csv, se explica mejor en el notebook
+dates_list = [datetime.datetime.strptime(i, "%Y%m%d").date() for i in fechas['index_fechas']]
+for i in range(len(fechas['index_fechas'])):
+    for j in range(31):
+        if fechas['index_fechas'][i] in dt.filenames[j]:
+            dt.data_archivos[fechas['index_fechas'][i]]=dt.data_archivos.pop(dt.filenames[j])
+            dt.data_archivos[dates_list[i]]=dt.data_archivos.pop(fechas['index_fechas'][i])
 
-# -- TEST 4 :
-# verify you can use plotly and visualize plots in web browser locally
+# Esta funcion ya nos muestra el ultimo precio de cierre de los tickers de yahoo
+clean_prices, data_close = fn.clean_price(data_archivos=dt.data_archivos, dates_list=dates_list, data=data,
+                                          t_fechas=fechas['t_fechas'])
 
-import plotly.io as pio            # to define input-output of plots
-pio.renderers.default = "browser"  # to render the plot locally in your default web browser
+# Esta funcion me crea la primera tabla donde ya se ve el ticker el peso el precio y el nombre de la accion
+pos_datos = fn.pasiva_ini(data_archivos=dt.data_archivos, dates_list=dates_list, precios=clean_prices)
 
-# basic plotly plot
-plot_data = go.Figure(go.Bar(x=df['column_a'], y=df['column_b']))
-# instruction to view it in specified render (in this case browser)
-plot_data.show()
+# Por ultimo de la inversion pasiva, esta funcion me muestra la tabla de todos los timestamps y muestra el resultado
+# de cuanto fue el rendimiento en el periodo y cuanto fue el rendimiento acumulado
+inv_pasiva = fn.inv_pasiva(pos_datos=pos_datos, dates_list=dates_list, precios=clean_prices)
