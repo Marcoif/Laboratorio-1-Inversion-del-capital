@@ -168,7 +168,7 @@ def activa_ini(data_archivos, dates_list, precios):
 
     # Para la estrategia voy a comenzar con bajarle el peso al activo con mas peso en el naftrac y de ahi ver como se ve
     activa_ini = activa_ini.copy()
-    activa_ini.loc[0, 'Peso (%)'] = activa_ini.loc[0, 'Peso (%)'] / 2
+
 
     k = 1000000
     c = 0.00125
@@ -201,3 +201,4 @@ def activa_ini(data_archivos, dates_list, precios):
     cash_activa = 1000000 - value_activa - activa_ini['Comisión'].sum()
 
     return activa_ini, cash_ini, cash_activa
+

@@ -40,3 +40,7 @@ pos_datos = fn.pasiva_ini(data_archivos=dt.data_archivos, dates_list=dates_list,
 # Por ultimo de la inversion pasiva, esta funcion me muestra la tabla de todos los timestamps y muestra el resultado
 # de cuanto fue el rendimiento en el periodo y cuanto fue el rendimiento acumulado
 inv_pasiva = fn.inv_pasiva(pos_datos=pos_datos, dates_list=dates_list, precios=clean_prices)
+
+# En esta funcion muestro la tabla de los datos que tenemos los precios, titulos, capital, titulos, postura y la comision
+
+activa_ini,cash_activa,cash_ini = fn.activa_ini(data_archivos=dt.data_archivos, dates_list=dates_list,precios=clean_prices)
